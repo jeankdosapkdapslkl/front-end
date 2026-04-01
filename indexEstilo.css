@@ -11,6 +11,11 @@ body {
     min-height: 100vh;
 }
 
+img {
+    max-width: 100%;
+    display: block;
+}
+
 .container {
     width: 100%;
     max-width: 1180px;
@@ -25,7 +30,7 @@ body {
 /* TOPO */
 .topbar {
     background: rgba(20, 20, 20, 0.95);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -73,11 +78,11 @@ body {
 
 .account-btn,
 .cart-btn {
-    height: 42px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 14px;
+    padding: 10px 14px;
     text-decoration: none;
     color: #fff;
     font-size: 13px;
@@ -90,8 +95,8 @@ body {
 }
 
 .account-btn img {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
 }
 
@@ -119,42 +124,27 @@ body {
     padding: 24px 0 12px;
 }
 
-.hero-banners {
-    display: grid;
-    grid-template-columns: 2.2fr 1.4fr;
-    gap: 14px;
-    align-items: stretch;
-}
-
-.banner-left img,
-.banner-right img,
-.hero-logo img,
-.category-card img,
-.highlight-card img {
-    display: block;
+.hero-main-banner {
     width: 100%;
+    margin-bottom: 20px;
 }
 
-.banner-left img,
-.banner-right img {
-    border-radius: 3px;
-    object-fit: cover;
-    height: 100%;
-}
-
-.banner-right {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
+.hero-main-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
 }
 
 .hero-logo {
-    max-width: 250px;
-    margin: 12px auto 0;
+    max-width: 260px;
+    margin: 10px auto 0;
 }
 
 .hero-logo img {
+    width: 100%;
+    height: auto;
     object-fit: contain;
+    opacity: 0.95;
 }
 
 /* CATEGORIAS */
@@ -169,17 +159,17 @@ body {
 }
 
 .category-card {
-    background: rgba(255,255,255,0.96);
+    background: rgba(255, 255, 255, 0.96);
     border-radius: 4px;
     padding: 8px;
     text-align: center;
-    box-shadow: 0 6px 22px rgba(0,0,0,0.18);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
 }
 
 .category-card img {
     height: 100px;
     object-fit: contain;
-    margin-bottom: 8px;
+    margin: 0 auto 8px;
 }
 
 .category-card button {
@@ -199,7 +189,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 18px 0 18px;
+    margin: 18px 0;
 }
 
 .section-header h2 {
@@ -229,7 +219,7 @@ body {
     background: rgba(7, 7, 7, 0.95);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 14px 26px rgba(0,0,0,0.28);
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
     border: 1px solid rgba(255, 136, 0, 0.08);
     position: relative;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -237,7 +227,7 @@ body {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 18px 30px rgba(0,0,0,0.35);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
 }
 
 .product-badge {
@@ -254,7 +244,7 @@ body {
 }
 
 .product-image {
-    padding: 22px 18px 10px;
+
     background: linear-gradient(180deg, #060606 0%, #101010 100%);
     min-height: 210px;
     display: flex;
@@ -268,10 +258,9 @@ body {
 
 .product-image img {
     width: 100%;
-    max-width: 170px;
-    height: 170px;
+    max-width: 270px;
+    height: 270px;
     object-fit: contain;
-    display: block;
 }
 
 .product-info {
@@ -338,7 +327,7 @@ body {
     transform: translateY(-1px);
 }
 
-/* DESTAQUE MEIO */
+/* DESTAQUE */
 .highlight-row {
     padding: 30px 0 16px;
 }
@@ -353,7 +342,7 @@ body {
     display: flex;
     align-items: center;
     gap: 18px;
-    background: rgba(0,0,0,0.22);
+    background: rgba(0, 0, 0, 0.22);
     border-radius: 14px;
     padding: 18px;
 }
@@ -387,10 +376,10 @@ body {
 }
 
 .footer-box {
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     border-radius: 16px;
     padding: 20px 18px 24px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-logo-line {
@@ -464,7 +453,7 @@ body {
     position: fixed;
     z-index: 1001;
     inset: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.65);
 }
 
 .modal-content {
@@ -474,24 +463,23 @@ body {
     background: #111;
     border-radius: 14px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .modal-header,
 .modal-footer {
     padding: 18px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.modal-footer {
-    border-bottom: none;
-    border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .modal-body {
@@ -542,7 +530,7 @@ body {
     gap: 14px;
     align-items: center;
     padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cart-item-image img {
@@ -636,14 +624,6 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .hero-banners {
-    grid-template-columns: 1fr;
-    display: grid;
-    grid-template-columns: 2.2fr 1.4fr;
-    gap: 14px;
-    align-items: stretch;
-    }
-
     .highlight-grid {
         grid-template-columns: 1fr;
     }
@@ -656,13 +636,13 @@ body {
         padding: 14px 0;
     }
 
-    .top-actions {
-        justify-content: space-between;
+    .search-box {
+        max-width: 100%;
     }
 
-    .banner-right {
-        grid-template-columns: 1fr;
-        gap: 8px;
+    .top-actions {
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
 
     .products-grid {
@@ -671,6 +651,11 @@ body {
 
     .categories-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .highlight-card {
+        flex-direction: column;
+        text-align: center;
     }
 
     .footer-logo-line {
@@ -685,44 +670,19 @@ body {
         font-size: 16px;
     }
 
-    .highlight-card {
-        flex-direction: column;
-        text-align: center;
+    .hero-logo {
+        max-width: 220px;
+        margin-top: 8px;
     }
 }
-
-.banner-left img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 3px;
-    display: block;
+.site-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
 }
-
-.banner-right {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-    min-height: 220px;
-}
-
-.banner-right img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 3px;
-    display: block;
-}
-
-
-.hero-logo {
-    max-width: 320px;
-    margin: 18px auto 0;
-}
-
-.hero-logo img {
-    width: 100%;
+.site-logo img {
+    width: 90px;
     height: auto;
-    object-fit: contain;
     display: block;
 }

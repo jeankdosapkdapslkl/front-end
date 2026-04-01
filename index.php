@@ -4,51 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCStore - Loja Gamer</title>
-    <link rel="stylesheet" href="indexEstilo.css">
+    <link rel="stylesheet" href="indexEstilo.css?v=6">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <header class="topbar">
-        <div class="container topbar-content">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Buscar produtos...">
-            </div>
+  <header class="topbar">
+  <div class="container topbar-content">
+      <a href="#" class="site-logo">
+          <img src="imagens/foto2.png" alt="PCSTORE">
+      </a>
 
-            <div class="top-actions">
-                <a href="#" class="account-btn">
-                    <img src="imagens/foto1.png" alt="Logo">
-                    <span>Minha Conta</span>
-                </a>
+      <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Buscar produtos...">
+      </div>
 
-                <a href="#" class="cart-btn" id="cartIcon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Carrinho</span>
-                    <span class="cart-count" id="cartCount">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
+      <div class="top-actions">
+          <a href="#" class="account-btn">
+              <img src="imagens/foto5.png" alt="Logo">
+              <span>Minha Conta</span>
+          </a>
+
+          <a href="#" class="cart-btn" id="cartIcon">
+              <i class="fas fa-shopping-cart"></i>
+              <span>Carrinho</span>
+              <span class="cart-count" id="cartCount">0</span>
+          </a>
+      </div>
+  </div>
+</header>
 
     <main class="page-wrap">
         <section class="hero-area">
             <div class="container">
-                <div class="hero-banners">
-                    <div class="banner-left">
-                        <img src="img/banner-principal.png" alt="Banner principal">
-                    </div>
-
-                    <div class="banner-right">
-                        <img src="img/banner-perifericos.png" alt="Periféricos">
-                        <img src="img/banner-setup.png" alt="Setup Gamer">
-                        <img src="img/banner-pc.png" alt="PC Personalizado">
-                    </div>
+                <div class="hero-main-banner">
+                    <img src="imagens/foto3.png" alt="Banner principal">
                 </div>
 
-                <div class="hero-logo">
-                    <img src="img/logo-pcstore.png" alt="PCSTORE">
-                </div>
+
             </div>
         </section>
 
@@ -56,27 +50,27 @@
             <div class="container">
                 <div class="categories-grid">
                     <div class="category-card" data-category="hardware">
-                        <img src="img/cat-hardware.png" alt="Hardware">
+                        <img src="imagens/foto6.png" alt="Hardware">
                         <button>HARDWARE</button>
                     </div>
 
                     <div class="category-card" data-category="perifericos">
-                        <img src="img/cat-perifericos.png" alt="Periféricos">
+                        <img src="imagens/foto7.png" alt="Periféricos">
                         <button>PERIFERICOS</button>
                     </div>
 
                     <div class="category-card" data-category="pc">
-                        <img src="img/cat-pc.png" alt="PC">
+                        <img src="imagens/foto8.png" alt="PC">
                         <button>PC</button>
                     </div>
 
                     <div class="category-card" data-category="upgrade">
-                        <img src="img/cat-upgrade.png" alt="Upgrade">
+                        <img src="imagens/foto9.png" alt="Upgrade">
                         <button>UPGRADE</button>
                     </div>
 
                     <div class="category-card" data-category="outros">
-                        <img src="img/cat-outros.png" alt="Outros">
+                        <img src="imagens/foto10.png" alt="Outros">
                         <button>OUTROS</button>
                     </div>
                 </div>

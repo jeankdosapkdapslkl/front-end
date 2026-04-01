@@ -9,19 +9,19 @@ const products = [
         reviews: 124,
         badge: "Novo",
         category: "pc",
-        image: "img/produto-pc1.png"
+        image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 2,
-        name: "Kit Gamer RGB",
-        description: "Teclado, mouse e headset para seu setup.",
+        name: "Teclado Mecanico",
+        description: "Teclado Mecanico branco estiloso com custo beneficio.",
         price: 399.99,
         oldPrice: 499.99,
         rating: 5,
         reviews: 89,
         badge: "Oferta",
         category: "perifericos",
-        image: "img/produto-kit1.png"
+      image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 3,
@@ -33,7 +33,7 @@ const products = [
         reviews: 256,
         badge: "-20%",
         category: "hardware",
-        image: "img/produto-gabinete1.png"
+        image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 4,
@@ -45,7 +45,7 @@ const products = [
         reviews: 342,
         badge: "Mais Vendido",
         category: "outros",
-        image: "img/produto-monitor1.png"
+        image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 5,
@@ -57,7 +57,7 @@ const products = [
         reviews: 64,
         badge: "-24%",
         category: "upgrade",
-        image: "img/produto-placamae1.png"
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 6,
@@ -69,7 +69,7 @@ const products = [
         reviews: 91,
         badge: "Oferta",
         category: "upgrade",
-        image: "img/produto-cpu1.png"
+        image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 7,
@@ -81,7 +81,7 @@ const products = [
         reviews: 77,
         badge: "-15%",
         category: "pc",
-        image: "img/produto-note1.png"
+        image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 8,
@@ -93,11 +93,15 @@ const products = [
         reviews: 115,
         badge: "Gamer",
         category: "perifericos",
-        image: "img/produto-headset1.png"
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"
     }
 ];
 
+const CART_STORAGE_KEY = "pcstore_cart";
+
 let cart = [];
+let currentCategory = "all";
+let currentSearchTerm = "";
 
 const productsGrid = document.getElementById("productsGrid");
 const cartCount = document.getElementById("cartCount");
@@ -112,29 +116,89 @@ const toast = document.getElementById("toast");
 const toastMessage = document.getElementById("toastMessage");
 const searchInput = document.getElementById("searchInput");
 const continueShoppingBtn = document.getElementById("continueShoppingBtn");
+const checkoutBtn = document.getElementById("checkoutBtn");
+const viewAllBtn = document.getElementById("viewAllBtn");
+const categoryCards = document.querySelectorAll(".category-card");
 
 function formatPrice(value) {
-    return value.toLocaleString("pt-BR", {
+    return Number(value).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
     });
 }
 
+function saveCart() {
+    try {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    } catch (error) {
+        console.error("Erro ao salvar carrinho:", error);
+    }
+}
+
+function loadCart() {
+    try {
+        const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+        cart = savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+        console.error("Erro ao carregar carrinho:", error);
+        cart = [];
+    }
+}
+
 function renderStars(rating, reviews) {
     let stars = "";
+
     for (let i = 1; i <= 5; i++) {
-        stars += `<i class="fas fa-star"></i>`;
+        if (i <= Math.floor(rating)) {
+            stars += `<i class="fas fa-star"></i>`;
+        } else if (i - rating <= 0.5) {
+            stars += `<i class="fas fa-star-half-alt"></i>`;
+        } else {
+            stars += `<i class="far fa-star"></i>`;
+        }
     }
+
     return `${stars}<span>(${reviews} avaliações)</span>`;
 }
 
-function renderProducts(list = products) {
-    productsGrid.innerHTML = list.map(product => `
+function getFilteredProducts() {
+    return products.filter((product) => {
+        const matchesCategory =
+            currentCategory === "all" || product.category === currentCategory;
+
+        const term = currentSearchTerm.toLowerCase().trim();
+        const matchesSearch =
+            term === "" ||
+            product.name.toLowerCase().includes(term) ||
+            product.description.toLowerCase().includes(term) ||
+            product.category.toLowerCase().includes(term) ||
+            product.badge.toLowerCase().includes(term);
+
+        return matchesCategory && matchesSearch;
+    });
+}
+
+function renderProducts() {
+    if (!productsGrid) return;
+
+    const filteredProducts = getFilteredProducts();
+
+    if (filteredProducts.length === 0) {
+        productsGrid.innerHTML = `
+            <div class="no-products" style="grid-column: 1 / -1; text-align: center; padding: 50px 20px;">
+                <i class="fas fa-box-open" style="font-size: 56px; color: #888; margin-bottom: 14px;"></i>
+                <p style="font-size: 18px; color: #cfcfcf;">Nenhum produto encontrado.</p>
+            </div>
+        `;
+        return;
+    }
+
+    productsGrid.innerHTML = filteredProducts.map((product) => `
         <div class="product-card">
             <span class="product-badge">${product.badge}</span>
 
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/300x300/111111/cccccc?text=Imagem'">
             </div>
 
             <div class="product-info">
@@ -150,35 +214,62 @@ function renderProducts(list = products) {
                     ${renderStars(product.rating, product.reviews)}
                 </div>
 
-                <button class="btn-add-to-cart" onclick="addToCart(${product.id})">
+                <button class="btn-add-to-cart" data-product-id="${product.id}">
                     Adicionar ao Carrinho
                 </button>
             </div>
         </div>
     `).join("");
+
+    bindAddToCartButtons();
+}
+
+function bindAddToCartButtons() {
+    const buttons = document.querySelectorAll(".btn-add-to-cart");
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productId = Number(button.dataset.productId);
+            addToCart(productId);
+        });
+    });
 }
 
 function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    const itemInCart = cart.find(item => item.id === productId);
+    const product = products.find((p) => p.id === productId);
+    if (!product) return;
+
+    const itemInCart = cart.find((item) => item.id === productId);
 
     if (itemInCart) {
         itemInCart.quantity += 1;
     } else {
-        cart.push({ ...product, quantity: 1 });
+        cart.push({
+            ...product,
+            quantity: 1
+        });
     }
 
+    saveCart();
     updateCart();
     showToast(`${product.name} adicionado ao carrinho!`);
 }
 
 function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+    const item = cart.find((product) => product.id === productId);
+
+    cart = cart.filter((product) => product.id !== productId);
+
+    saveCart();
     updateCart();
+
+    if (item) {
+        showToast(`${item.name} removido do carrinho!`);
+    }
 }
 
 function changeQuantity(productId, amount) {
-    const item = cart.find(item => item.id === productId);
+    const item = cart.find((product) => product.id === productId);
     if (!item) return;
 
     item.quantity += amount;
@@ -188,12 +279,18 @@ function changeQuantity(productId, amount) {
         return;
     }
 
+    saveCart();
     updateCart();
 }
 
 function updateCart() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartCount.textContent = totalItems;
+
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+    }
+
+    if (!cartItems || !cartEmpty || !cartFooter || !cartTotal) return;
 
     if (cart.length === 0) {
         cartItems.innerHTML = "";
@@ -206,10 +303,10 @@ function updateCart() {
     cartEmpty.style.display = "none";
     cartFooter.style.display = "block";
 
-    cartItems.innerHTML = cart.map(item => `
+    cartItems.innerHTML = cart.map((item) => `
         <div class="cart-item">
             <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.name}">
+                <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/80x80/111111/cccccc?text=Img'">
             </div>
 
             <div class="cart-item-details">
@@ -217,13 +314,13 @@ function updateCart() {
                 <div class="cart-item-price">${formatPrice(item.price)}</div>
 
                 <div class="cart-item-quantity">
-                    <button class="quantity-btn" onclick="changeQuantity(${item.id}, -1)">-</button>
+                    <button class="quantity-btn" data-action="decrease" data-product-id="${item.id}">-</button>
                     <span class="quantity-value">${item.quantity}</span>
-                    <button class="quantity-btn" onclick="changeQuantity(${item.id}, 1)">+</button>
+                    <button class="quantity-btn" data-action="increase" data-product-id="${item.id}">+</button>
                 </div>
             </div>
 
-            <button class="remove-item" onclick="removeFromCart(${item.id})">
+            <button class="remove-item" data-action="remove" data-product-id="${item.id}">
                 <i class="fas fa-trash"></i>
             </button>
         </div>
@@ -231,68 +328,145 @@ function updateCart() {
 
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     cartTotal.textContent = formatPrice(total);
+
+    bindCartButtons();
 }
 
+function bindCartButtons() {
+    const decreaseButtons = document.querySelectorAll('[data-action="decrease"]');
+    const increaseButtons = document.querySelectorAll('[data-action="increase"]');
+    const removeButtons = document.querySelectorAll('[data-action="remove"]');
+
+    decreaseButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productId = Number(button.dataset.productId);
+            changeQuantity(productId, -1);
+        });
+    });
+
+    increaseButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productId = Number(button.dataset.productId);
+            changeQuantity(productId, 1);
+        });
+    });
+
+    removeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productId = Number(button.dataset.productId);
+            removeFromCart(productId);
+        });
+    });
+}
+
+let toastTimeout;
+
 function showToast(message) {
+    if (!toast || !toastMessage) return;
+
     toastMessage.textContent = message;
     toast.style.display = "flex";
 
-    setTimeout(() => {
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
         toast.style.display = "none";
     }, 2200);
 }
 
-cartIcon.addEventListener("click", (e) => {
-    e.preventDefault();
+function openCartModal() {
+    if (!cartModal) return;
     cartModal.style.display = "block";
-});
+    document.body.style.overflow = "hidden";
+}
 
-closeModal.addEventListener("click", () => {
+function closeCartModal() {
+    if (!cartModal) return;
     cartModal.style.display = "none";
-});
+    document.body.style.overflow = "auto";
+}
 
-window.addEventListener("click", (e) => {
-    if (e.target === cartModal) {
-        cartModal.style.display = "none";
+function setActiveCategory(category) {
+    categoryCards.forEach((card) => {
+        const isActive = card.dataset.category === category;
+        card.style.outline = isActive ? "2px solid #ff9100" : "none";
+        card.style.transform = isActive ? "translateY(-2px)" : "none";
+    });
+}
+
+function resetFilters() {
+    currentCategory = "all";
+    currentSearchTerm = "";
+
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+    setActiveCategory("");
+    renderProducts();
+}
+
+if (cartIcon) {
+    cartIcon.addEventListener("click", (event) => {
+        event.preventDefault();
+        openCartModal();
+    });
+}
+
+if (closeModal) {
+    closeModal.addEventListener("click", closeCartModal);
+}
+
+window.addEventListener("click", (event) => {
+    if (event.target === cartModal) {
+        closeCartModal();
     }
 });
 
-continueShoppingBtn.addEventListener("click", () => {
-    cartModal.style.display = "none";
-});
+if (continueShoppingBtn) {
+    continueShoppingBtn.addEventListener("click", closeCartModal);
+}
 
-searchInput.addEventListener("input", () => {
-    const term = searchInput.value.toLowerCase().trim();
-
-    const filtered = products.filter(product =>
-        product.name.toLowerCase().includes(term) ||
-        product.description.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term)
-    );
-
-    renderProducts(filtered);
-});
-
-document.querySelectorAll(".category-card").forEach(card => {
-    card.addEventListener("click", () => {
-        const category = card.dataset.category;
-        const filtered = products.filter(product => product.category === category);
-        renderProducts(filtered);
+if (searchInput) {
+    searchInput.addEventListener("input", () => {
+        currentSearchTerm = searchInput.value.trim();
+        renderProducts();
     });
-});
+}
 
-document.getElementById("viewAllBtn").addEventListener("click", (e) => {
-    e.preventDefault();
-    renderProducts(products);
-});
+if (categoryCards.length > 0) {
+    categoryCards.forEach((card) => {
+        card.addEventListener("click", () => {
+            currentCategory = card.dataset.category || "all";
+            setActiveCategory(currentCategory);
+            renderProducts();
+        });
+    });
+}
 
-document.getElementById("checkoutBtn").addEventListener("click", () => {
-    if (cart.length === 0) return;
-    showToast("Compra finalizada com sucesso!");
-    cart = [];
+if (viewAllBtn) {
+    viewAllBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        resetFilters();
+    });
+}
+
+if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+        if (cart.length === 0) {
+            showToast("Seu carrinho está vazio!");
+            return;
+        }
+
+        showToast("Compra finalizada com sucesso!");
+        cart = [];
+        saveCart();
+        updateCart();
+        closeCartModal();
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadCart();
+    renderProducts();
     updateCart();
-    cartModal.style.display = "none";
 });
-
-renderProducts();
-updateCart();
