@@ -21,7 +21,7 @@ const products = [
         reviews: 89,
         badge: "Oferta",
         category: "perifericos",
-      image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=600&q=80"
+        image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: 3,
@@ -94,10 +94,36 @@ const products = [
         badge: "Gamer",
         category: "perifericos",
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        id: 9,
+        name: "Cadeira Gamer PCSTORE",
+        description: "Elegância e conforto para suas sessões de jogo.",
+        price: 1199.99,
+        oldPrice: 1399.99,
+        rating: 5,
+        reviews: 58,
+        badge: "Destaque",
+        category: "outros",
+        image: "imagens/foto11.png"
+    },
+    {
+        id: 10,
+        name: "PC Gamer PCSTORE",
+        description: "Desempenho médio para lazer e jogos.",
+        price: 3500.00,
+        oldPrice: 4150.00,
+        rating: 5,
+        reviews: 41,
+        badge: "Destaque",
+        category: "pc",
+        image: "imagens/foto12.png"
     }
 ];
 
 const CART_STORAGE_KEY = "pcstore_cart";
+const LOGIN_STORAGE_KEY = "pcstore_logged_in";
+const USER_STORAGE_KEY = "pcstore_user";
 
 let cart = [];
 let currentCategory = "all";
@@ -119,6 +145,11 @@ const continueShoppingBtn = document.getElementById("continueShoppingBtn");
 const checkoutBtn = document.getElementById("checkoutBtn");
 const viewAllBtn = document.getElementById("viewAllBtn");
 const categoryCards = document.querySelectorAll(".category-card");
+const accountBtn = document.getElementById("accountBtn");
+const accountText = document.getElementById("accountText");
+const successModal = document.getElementById("successModal");
+const successCloseBtn = document.getElementById("successCloseBtn");
+const highlightButtons = document.querySelectorAll(".btn-highlight-cart");
 
 function formatPrice(value) {
     return Number(value).toLocaleString("pt-BR", {
@@ -142,6 +173,39 @@ function loadCart() {
     } catch (error) {
         console.error("Erro ao carregar carrinho:", error);
         cart = [];
+    }
+}
+
+function isUserLoggedIn() {
+    return localStorage.getItem(LOGIN_STORAGE_KEY) === "true";
+}
+
+function redirectToLogin() {
+    window.location.href = "login.html";
+}
+
+function handleLogout(event) {
+    if (!isUserLoggedIn()) return;
+    event.preventDefault();
+    localStorage.removeItem(LOGIN_STORAGE_KEY);
+    localStorage.removeItem(USER_STORAGE_KEY);
+    showToast("Você saiu da conta!");
+    setTimeout(() => {
+        window.location.reload();
+    }, 700);
+}
+
+function updateAccountButton() {
+    if (!accountBtn || !accountText) return;
+
+    if (isUserLoggedIn()) {
+        accountText.textContent = "Sair";
+        accountBtn.setAttribute("href", "#");
+        accountBtn.onclick = handleLogout;
+    } else {
+        accountText.textContent = "Minha Conta";
+        accountBtn.setAttribute("href", "login.html");
+        accountBtn.onclick = null;
     }
 }
 
@@ -196,24 +260,19 @@ function renderProducts() {
     productsGrid.innerHTML = filteredProducts.map((product) => `
         <div class="product-card">
             <span class="product-badge">${product.badge}</span>
-
             <div class="product-image">
                 <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/300x300/111111/cccccc?text=Imagem'">
             </div>
-
             <div class="product-info">
                 <h3>${product.name}</h3>
                 <p class="product-description">${product.description}</p>
-
                 <div class="price">
                     <span class="current-price">${formatPrice(product.price)}</span>
                     <span class="old-price">${formatPrice(product.oldPrice)}</span>
                 </div>
-
                 <div class="rating">
                     ${renderStars(product.rating, product.reviews)}
                 </div>
-
                 <button class="btn-add-to-cart" data-product-id="${product.id}">
                     Adicionar ao Carrinho
                 </button>
@@ -235,6 +294,22 @@ function bindAddToCartButtons() {
     });
 }
 
+function bindHighlightButtons() {
+    highlightButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const highlightId = button.dataset.highlightId;
+
+            if (highlightId === "cadeira") {
+                addToCart(9);
+            }
+
+            if (highlightId === "pc-destaque") {
+                addToCart(10);
+            }
+        });
+    });
+}
+
 function addToCart(productId) {
     const product = products.find((p) => p.id === productId);
     if (!product) return;
@@ -244,10 +319,7 @@ function addToCart(productId) {
     if (itemInCart) {
         itemInCart.quantity += 1;
     } else {
-        cart.push({
-            ...product,
-            quantity: 1
-        });
+        cart.push({ ...product, quantity: 1 });
     }
 
     saveCart();
@@ -257,9 +329,7 @@ function addToCart(productId) {
 
 function removeFromCart(productId) {
     const item = cart.find((product) => product.id === productId);
-
     cart = cart.filter((product) => product.id !== productId);
-
     saveCart();
     updateCart();
 
@@ -308,18 +378,15 @@ function updateCart() {
             <div class="cart-item-image">
                 <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/80x80/111111/cccccc?text=Img'">
             </div>
-
             <div class="cart-item-details">
                 <h4>${item.name}</h4>
                 <div class="cart-item-price">${formatPrice(item.price)}</div>
-
                 <div class="cart-item-quantity">
                     <button class="quantity-btn" data-action="decrease" data-product-id="${item.id}">-</button>
                     <span class="quantity-value">${item.quantity}</span>
                     <button class="quantity-btn" data-action="increase" data-product-id="${item.id}">+</button>
                 </div>
             </div>
-
             <button class="remove-item" data-action="remove" data-product-id="${item.id}">
                 <i class="fas fa-trash"></i>
             </button>
@@ -385,6 +452,26 @@ function closeCartModal() {
     document.body.style.overflow = "auto";
 }
 
+function openSuccessModal() {
+    if (!successModal) return;
+    successModal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+
+function closeSuccessModal() {
+    if (!successModal) return;
+    successModal.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+function finalizePurchase() {
+    cart = [];
+    saveCart();
+    updateCart();
+    closeCartModal();
+    openSuccessModal();
+}
+
 function setActiveCategory(category) {
     categoryCards.forEach((card) => {
         const isActive = card.dataset.category === category;
@@ -416,9 +503,17 @@ if (closeModal) {
     closeModal.addEventListener("click", closeCartModal);
 }
 
+if (successCloseBtn) {
+    successCloseBtn.addEventListener("click", closeSuccessModal);
+}
+
 window.addEventListener("click", (event) => {
     if (event.target === cartModal) {
         closeCartModal();
+    }
+
+    if (event.target === successModal) {
+        closeSuccessModal();
     }
 });
 
@@ -457,11 +552,15 @@ if (checkoutBtn) {
             return;
         }
 
-        showToast("Compra finalizada com sucesso!");
-        cart = [];
-        saveCart();
-        updateCart();
-        closeCartModal();
+        if (!isUserLoggedIn()) {
+            showToast("Faça login para finalizar a compra!");
+            setTimeout(() => {
+                redirectToLogin();
+            }, 900);
+            return;
+        }
+
+        finalizePurchase();
     });
 }
 
@@ -469,4 +568,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCart();
     renderProducts();
     updateCart();
+    updateAccountButton();
+    bindHighlightButtons();
 });

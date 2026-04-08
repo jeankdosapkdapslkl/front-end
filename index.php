@@ -4,45 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCStore - Loja Gamer</title>
-    <link rel="stylesheet" href="indexEstilo.css?v=6">
+    <link rel="stylesheet" href="indexEstilo.css?v=10">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-  <header class="topbar">
-  <div class="container topbar-content">
-      <a href="#" class="site-logo">
-          <img src="imagens/foto2.png" alt="PCSTORE">
-      </a>
+    <header class="topbar">
+        <div class="container topbar-content">
+            <a href="#" class="site-logo">
+                <img src="imagens/foto2.png" alt="PCSTORE">
+            </a>
 
-      <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Buscar produtos...">
-      </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar produtos...">
+            </div>
 
-      <div class="top-actions">
-          <a href="#" class="account-btn">
-              <img src="imagens/foto5.png" alt="Logo">
-              <span>Minha Conta</span>
-          </a>
+            <div class="top-actions">
+                <a href="login.html" class="account-btn" id="accountBtn">
+                    <img src="imagens/foto5.png" alt="Logo">
+                    <span id="accountText">Minha Conta</span>
+                </a>
 
-          <a href="#" class="cart-btn" id="cartIcon">
-              <i class="fas fa-shopping-cart"></i>
-              <span>Carrinho</span>
-              <span class="cart-count" id="cartCount">0</span>
-          </a>
-      </div>
-  </div>
-</header>
+                <a href="#" class="cart-btn" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Carrinho</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
 
     <main class="page-wrap">
         <section class="hero-area">
             <div class="container">
                 <div class="hero-main-banner">
-                    <img src="imagens/foto3.png" alt="Banner principal">
+                    <a href="personalize.php" class="hero-banner-link">
+                        <img src="imagens/foto3.png" alt="Banner principal">
+                    </a>
                 </div>
-
-
             </div>
         </section>
 
@@ -91,20 +91,22 @@
         <section class="highlight-row">
             <div class="container highlight-grid">
                 <div class="highlight-card">
-                    <img src="img/cadeira-gamer.png" alt="Cadeira Gamer">
+                    <img src="imagens/foto11.png" alt="Cadeira Gamer">
                     <div class="highlight-info">
                         <h3>Cadeira Gamer PCSTORE</h3>
                         <p>Elegância e conforto para suas sessões de jogo</p>
                         <strong>R$ 1.199,99</strong>
+                        <button class="btn-highlight-cart" data-highlight-id="cadeira">Comprar agora</button>
                     </div>
                 </div>
 
                 <div class="highlight-card">
-                    <img src="img/pc-gamer-destaque.png" alt="PC Gamer">
+                    <img src="imagens/foto12.png" alt="PC Gamer">
                     <div class="highlight-info">
                         <h3>PC Gamer PCSTORE</h3>
                         <p>Desempenho médio para lazer e jogos</p>
                         <strong>R$ 4.999,99</strong>
+                        <button class="btn-highlight-cart" data-highlight-id="pc-destaque">Comprar agora</button>
                     </div>
                 </div>
             </div>
@@ -113,7 +115,7 @@
         <footer class="footer">
             <div class="container footer-box">
                 <div class="footer-logo-line">
-                    <img src="img/logo-mini.png" alt="PCStore">
+                    <img src="imagens/foto2.png" alt="PCStore">
                     <h4>Sua loja de tecnologia e periféricos</h4>
                 </div>
 
@@ -126,9 +128,9 @@
                 </nav>
 
                 <div class="footer-social">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                 </div>
 
                 <p class="footer-email">Email: PCStore@gmail.com</p>
@@ -162,6 +164,18 @@
                     <button class="btn-checkout" id="checkoutBtn">Finalizar compra</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="success-modal">
+        <div class="success-box">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Pedido finalizado!</h2>
+            <p>Sua compra foi realizada com sucesso.</p>
+            <p class="success-extra">Obrigado pela compra. Volte sempre! ❤️</p>
+            <button id="successCloseBtn" class="success-btn">Continuar comprando</button>
         </div>
     </div>
 
