@@ -1,15 +1,18 @@
+// ================= LISTA DE PRODUTOS =================
+
+// array com todos os produtos da loja
 const products = [
     {
-        id: 1,
-        name: "PC Gamer RGB",
-        description: "Setup gamer com visual RGB e ótimo desempenho.",
-        price: 4999.99,
-        oldPrice: 5599.99,
-        rating: 5,
-        reviews: 124,
-        badge: "Novo",
-        category: "pc",
-        image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"
+        id: 1, // id único do produto
+        name: "PC Gamer RGB", // nome do produto
+        description: "Setup gamer com visual RGB e ótimo desempenho.", // descrição
+        price: 4999.99, // preço atual
+        oldPrice: 5599.99, // preço antigo (para mostrar desconto)
+        rating: 5, // nota do produto
+        reviews: 124, // quantidade de avaliações
+        badge: "Novo", // selo do produto
+        category: "pc", // categoria do produto
+        image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80" // imagem do produto
     },
     {
         id: 2,
@@ -121,14 +124,31 @@ const products = [
     }
 ];
 
+// ================= CONSTANTES =================
+
+// chave usada pra salvar o carrinho no localStorage
 const CART_STORAGE_KEY = "pcstore_cart";
+
+// chave que indica se o usuário está logado
 const LOGIN_STORAGE_KEY = "pcstore_logged_in";
+
+// chave que guarda dados do usuário
 const USER_STORAGE_KEY = "pcstore_user";
 
+// ================= ESTADOS =================
+
+// array que guarda os itens do carrinho
 let cart = [];
+
+// categoria atual selecionada
 let currentCategory = "all";
+
+// termo digitado na busca
 let currentSearchTerm = "";
 
+// ================= ELEMENTOS DO DOM =================
+
+// pegando todos os elementos da página
 const productsGrid = document.getElementById("productsGrid");
 const cartCount = document.getElementById("cartCount");
 const cartIcon = document.getElementById("cartIcon");
@@ -151,6 +171,9 @@ const successModal = document.getElementById("successModal");
 const successCloseBtn = document.getElementById("successCloseBtn");
 const highlightButtons = document.querySelectorAll(".btn-highlight-cart");
 
+// ================= FORMATAR PREÇO =================
+
+// transforma número em moeda BRL
 function formatPrice(value) {
     return Number(value).toLocaleString("pt-BR", {
         style: "currency",
@@ -158,6 +181,9 @@ function formatPrice(value) {
     });
 }
 
+// ================= LOCAL STORAGE =================
+
+// salva o carrinho no navegador
 function saveCart() {
     try {
         localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
@@ -166,6 +192,7 @@ function saveCart() {
     }
 }
 
+// carrega o carrinho salvo
 function loadCart() {
     try {
         const savedCart = localStorage.getItem(CART_STORAGE_KEY);
@@ -176,25 +203,36 @@ function loadCart() {
     }
 }
 
+// ================= LOGIN =================
+
+// verifica se usuário está logado
 function isUserLoggedIn() {
     return localStorage.getItem(LOGIN_STORAGE_KEY) === "true";
 }
 
+// redireciona pra tela de login
 function redirectToLogin() {
     window.location.href = "login.html";
 }
 
+// função de logout
 function handleLogout(event) {
     if (!isUserLoggedIn()) return;
+
     event.preventDefault();
+
+    // remove dados do login
     localStorage.removeItem(LOGIN_STORAGE_KEY);
     localStorage.removeItem(USER_STORAGE_KEY);
+
     showToast("Você saiu da conta!");
+
     setTimeout(() => {
         window.location.reload();
     }, 700);
 }
 
+// muda botão "Minha conta" → "Sair"
 function updateAccountButton() {
     if (!accountBtn || !accountText) return;
 
@@ -208,29 +246,52 @@ function updateAccountButton() {
         accountBtn.onclick = null;
     }
 }
+// ================= RENDERIZAÇÃO DE ESTRELAS =================
 
+// gera as estrelas de avaliação do produto
 function renderStars(rating, reviews) {
-    let stars = "";
 
+    let stars = ""; // string que vai guardar as estrelas
+
+    // loop de 1 até 5 estrelas
     for (let i = 1; i <= 5; i++) {
+
+        // estrela cheia
         if (i <= Math.floor(rating)) {
             stars += `<i class="fas fa-star"></i>`;
-        } else if (i - rating <= 0.5) {
+        }
+
+        // meia estrela
+        else if (i - rating <= 0.5) {
             stars += `<i class="fas fa-star-half-alt"></i>`;
-        } else {
+        }
+
+        // estrela vazia
+        else {
             stars += `<i class="far fa-star"></i>`;
         }
     }
 
+    // retorna estrelas + quantidade de avaliações
     return `${stars}<span>(${reviews} avaliações)</span>`;
 }
 
+
+// ================= FILTRO DE PRODUTOS =================
+
+// retorna lista filtrada
 function getFilteredProducts() {
+
     return products.filter((product) => {
+
+        // verifica se bate com categoria
         const matchesCategory =
             currentCategory === "all" || product.category === currentCategory;
 
+        // pega termo de busca
         const term = currentSearchTerm.toLowerCase().trim();
+
+        // verifica se bate com busca
         const matchesSearch =
             term === "" ||
             product.name.toLowerCase().includes(term) ||
@@ -238,16 +299,24 @@ function getFilteredProducts() {
             product.category.toLowerCase().includes(term) ||
             product.badge.toLowerCase().includes(term);
 
+        // só retorna se passar nos dois filtros
         return matchesCategory && matchesSearch;
     });
 }
 
+
+// ================= RENDERIZAR PRODUTOS =================
+
+// desenha os produtos na tela
 function renderProducts() {
-    if (!productsGrid) return;
 
-    const filteredProducts = getFilteredProducts();
+    if (!productsGrid) return; // se não existir elemento, para
 
+    const filteredProducts = getFilteredProducts(); // pega filtrados
+
+    // se não tiver produtos
     if (filteredProducts.length === 0) {
+
         productsGrid.innerHTML = `
             <div class="no-products" style="grid-column: 1 / -1; text-align: center; padding: 50px 20px;">
                 <i class="fas fa-box-open" style="font-size: 56px; color: #888; margin-bottom: 14px;"></i>
@@ -257,52 +326,79 @@ function renderProducts() {
         return;
     }
 
+    // cria HTML dos produtos
     productsGrid.innerHTML = filteredProducts.map((product) => `
         <div class="product-card">
+
             <span class="product-badge">${product.badge}</span>
+
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/300x300/111111/cccccc?text=Imagem'">
+                <img src="${product.image}" alt="${product.name}" 
+                onerror="this.src='https://placehold.co/300x300/111111/cccccc?text=Imagem'">
             </div>
+
             <div class="product-info">
+
                 <h3>${product.name}</h3>
+
                 <p class="product-description">${product.description}</p>
+
                 <div class="price">
                     <span class="current-price">${formatPrice(product.price)}</span>
                     <span class="old-price">${formatPrice(product.oldPrice)}</span>
                 </div>
+
                 <div class="rating">
                     ${renderStars(product.rating, product.reviews)}
                 </div>
+
                 <button class="btn-add-to-cart" data-product-id="${product.id}">
                     Adicionar ao Carrinho
                 </button>
+
             </div>
         </div>
     `).join("");
 
-    bindAddToCartButtons();
+    bindAddToCartButtons(); // ativa botões
 }
 
+
+// ================= BOTÕES ADD AO CARRINHO =================
+
+// adiciona evento nos botões
 function bindAddToCartButtons() {
+
     const buttons = document.querySelectorAll(".btn-add-to-cart");
 
     buttons.forEach((button) => {
+
         button.addEventListener("click", () => {
-            const productId = Number(button.dataset.productId);
-            addToCart(productId);
+
+            const productId = Number(button.dataset.productId); // pega id
+            addToCart(productId); // adiciona no carrinho
         });
     });
 }
 
+
+// ================= BOTÕES DE DESTAQUE =================
+
+// botões especiais (ex: home destaque)
 function bindHighlightButtons() {
+
     highlightButtons.forEach((button) => {
+
         button.addEventListener("click", () => {
+
             const highlightId = button.dataset.highlightId;
 
+            // adiciona cadeira
             if (highlightId === "cadeira") {
                 addToCart(9);
             }
 
+            // adiciona pc destaque
             if (highlightId === "pc-destaque") {
                 addToCart(10);
             }
@@ -310,26 +406,39 @@ function bindHighlightButtons() {
     });
 }
 
+
+// ================= ADICIONAR AO CARRINHO =================
+
 function addToCart(productId) {
-    const product = products.find((p) => p.id === productId);
+
+    const product = products.find((p) => p.id === productId); // acha produto
+
     if (!product) return;
 
+    // verifica se já existe no carrinho
     const itemInCart = cart.find((item) => item.id === productId);
 
     if (itemInCart) {
-        itemInCart.quantity += 1;
+        itemInCart.quantity += 1; // aumenta quantidade
     } else {
-        cart.push({ ...product, quantity: 1 });
+        cart.push({ ...product, quantity: 1 }); // adiciona novo
     }
 
-    saveCart();
-    updateCart();
-    showToast(`${product.name} adicionado ao carrinho!`);
+    saveCart(); // salva
+    updateCart(); // atualiza UI
+    showToast(`${product.name} adicionado ao carrinho!`); // aviso
 }
 
+
+// ================= REMOVER DO CARRINHO =================
+
 function removeFromCart(productId) {
+
     const item = cart.find((product) => product.id === productId);
+
+    // remove item
     cart = cart.filter((product) => product.id !== productId);
+
     saveCart();
     updateCart();
 
@@ -338,12 +447,18 @@ function removeFromCart(productId) {
     }
 }
 
+
+// ================= ALTERAR QUANTIDADE =================
+
 function changeQuantity(productId, amount) {
+
     const item = cart.find((product) => product.id === productId);
+
     if (!item) return;
 
     item.quantity += amount;
 
+    // se zerar, remove
     if (item.quantity <= 0) {
         removeFromCart(productId);
         return;
@@ -352,58 +467,84 @@ function changeQuantity(productId, amount) {
     saveCart();
     updateCart();
 }
+// ================= ATUALIZAR CARRINHO =================
 
 function updateCart() {
+
+    // soma total de itens (quantidade)
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+    // atualiza contador do carrinho no ícone
     if (cartCount) {
         cartCount.textContent = totalItems;
     }
 
+    // se elementos não existirem, para
     if (!cartItems || !cartEmpty || !cartFooter || !cartTotal) return;
 
+    // se carrinho vazio
     if (cart.length === 0) {
-        cartItems.innerHTML = "";
-        cartEmpty.style.display = "block";
-        cartFooter.style.display = "none";
-        cartTotal.textContent = formatPrice(0);
+
+        cartItems.innerHTML = ""; // limpa lista
+        cartEmpty.style.display = "block"; // mostra mensagem vazio
+        cartFooter.style.display = "none"; // esconde footer
+        cartTotal.textContent = formatPrice(0); // total 0
         return;
     }
 
-    cartEmpty.style.display = "none";
-    cartFooter.style.display = "block";
+    // se tiver itens
+    cartEmpty.style.display = "none"; // esconde mensagem
+    cartFooter.style.display = "block"; // mostra footer
 
+    // monta HTML dos itens do carrinho
     cartItems.innerHTML = cart.map((item) => `
         <div class="cart-item">
+
             <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/80x80/111111/cccccc?text=Img'">
+                <img src="${item.image}" alt="${item.name}" 
+                onerror="this.src='https://placehold.co/80x80/111111/cccccc?text=Img'">
             </div>
+
             <div class="cart-item-details">
                 <h4>${item.name}</h4>
-                <div class="cart-item-price">${formatPrice(item.price)}</div>
+
+                <div class="cart-item-price">
+                    ${formatPrice(item.price)}
+                </div>
+
                 <div class="cart-item-quantity">
                     <button class="quantity-btn" data-action="decrease" data-product-id="${item.id}">-</button>
                     <span class="quantity-value">${item.quantity}</span>
                     <button class="quantity-btn" data-action="increase" data-product-id="${item.id}">+</button>
                 </div>
             </div>
+
             <button class="remove-item" data-action="remove" data-product-id="${item.id}">
                 <i class="fas fa-trash"></i>
             </button>
+
         </div>
     `).join("");
 
+    // calcula valor total
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // atualiza total na tela
     cartTotal.textContent = formatPrice(total);
 
-    bindCartButtons();
+    bindCartButtons(); // ativa botões do carrinho
 }
 
+
+// ================= BOTÕES DO CARRINHO =================
+
 function bindCartButtons() {
+
     const decreaseButtons = document.querySelectorAll('[data-action="decrease"]');
     const increaseButtons = document.querySelectorAll('[data-action="increase"]');
     const removeButtons = document.querySelectorAll('[data-action="remove"]');
 
+    // diminuir quantidade
     decreaseButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const productId = Number(button.dataset.productId);
@@ -411,6 +552,7 @@ function bindCartButtons() {
         });
     });
 
+    // aumentar quantidade
     increaseButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const productId = Number(button.dataset.productId);
@@ -418,6 +560,7 @@ function bindCartButtons() {
         });
     });
 
+    // remover item
     removeButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const productId = Number(button.dataset.productId);
@@ -426,61 +569,96 @@ function bindCartButtons() {
     });
 }
 
-let toastTimeout;
+
+// ================= TOAST (MENSAGEM) =================
+
+let toastTimeout; // controle de tempo
 
 function showToast(message) {
+
     if (!toast || !toastMessage) return;
 
-    toastMessage.textContent = message;
-    toast.style.display = "flex";
+    toastMessage.textContent = message; // define mensagem
+    toast.style.display = "flex"; // mostra toast
 
-    clearTimeout(toastTimeout);
+    clearTimeout(toastTimeout); // limpa timeout anterior
+
     toastTimeout = setTimeout(() => {
-        toast.style.display = "none";
+        toast.style.display = "none"; // esconde depois de 2.2s
     }, 2200);
 }
 
+
+// ================= MODAL DO CARRINHO =================
+
 function openCartModal() {
+
     if (!cartModal) return;
-    cartModal.style.display = "block";
-    document.body.style.overflow = "hidden";
+
+    cartModal.style.display = "block"; // mostra modal
+    document.body.style.overflow = "hidden"; // trava scroll
 }
 
 function closeCartModal() {
+
     if (!cartModal) return;
-    cartModal.style.display = "none";
-    document.body.style.overflow = "auto";
+
+    cartModal.style.display = "none"; // esconde modal
+    document.body.style.overflow = "auto"; // libera scroll
 }
 
+
+// ================= MODAL DE SUCESSO =================
+
 function openSuccessModal() {
+
     if (!successModal) return;
+
     successModal.style.display = "flex";
     document.body.style.overflow = "hidden";
 }
 
 function closeSuccessModal() {
+
     if (!successModal) return;
+
     successModal.style.display = "none";
     document.body.style.overflow = "auto";
 }
 
+
+// ================= FINALIZAR COMPRA =================
+
 function finalizePurchase() {
-    cart = [];
+
+    cart = []; // limpa carrinho
     saveCart();
     updateCart();
-    closeCartModal();
-    openSuccessModal();
+
+    closeCartModal(); // fecha carrinho
+    openSuccessModal(); // abre sucesso
 }
 
+
+// ================= CATEGORIA ATIVA =================
+
 function setActiveCategory(category) {
+
     categoryCards.forEach((card) => {
+
         const isActive = card.dataset.category === category;
+
+        // aplica estilo visual
         card.style.outline = isActive ? "2px solid #ff9100" : "none";
         card.style.transform = isActive ? "translateY(-2px)" : "none";
     });
 }
 
+
+// ================= RESETAR FILTROS =================
+
 function resetFilters() {
+
     currentCategory = "all";
     currentSearchTerm = "";
 
@@ -492,6 +670,10 @@ function resetFilters() {
     renderProducts();
 }
 
+
+// ================= EVENTOS =================
+
+// abrir carrinho
 if (cartIcon) {
     cartIcon.addEventListener("click", (event) => {
         event.preventDefault();
@@ -499,15 +681,19 @@ if (cartIcon) {
     });
 }
 
+// fechar carrinho
 if (closeModal) {
     closeModal.addEventListener("click", closeCartModal);
 }
 
+// fechar sucesso
 if (successCloseBtn) {
     successCloseBtn.addEventListener("click", closeSuccessModal);
 }
 
+// clique fora do modal
 window.addEventListener("click", (event) => {
+
     if (event.target === cartModal) {
         closeCartModal();
     }
@@ -517,10 +703,12 @@ window.addEventListener("click", (event) => {
     }
 });
 
+// continuar comprando
 if (continueShoppingBtn) {
     continueShoppingBtn.addEventListener("click", closeCartModal);
 }
 
+// busca
 if (searchInput) {
     searchInput.addEventListener("input", () => {
         currentSearchTerm = searchInput.value.trim();
@@ -528,6 +716,7 @@ if (searchInput) {
     });
 }
 
+// categorias
 if (categoryCards.length > 0) {
     categoryCards.forEach((card) => {
         card.addEventListener("click", () => {
@@ -538,6 +727,7 @@ if (categoryCards.length > 0) {
     });
 }
 
+// ver todos
 if (viewAllBtn) {
     viewAllBtn.addEventListener("click", (event) => {
         event.preventDefault();
@@ -545,8 +735,10 @@ if (viewAllBtn) {
     });
 }
 
+// finalizar compra
 if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
+
         if (cart.length === 0) {
             showToast("Seu carrinho está vazio!");
             return;
@@ -564,10 +756,14 @@ if (checkoutBtn) {
     });
 }
 
+
+// ================= INICIALIZAÇÃO =================
+
 document.addEventListener("DOMContentLoaded", () => {
-    loadCart();
-    renderProducts();
-    updateCart();
-    updateAccountButton();
-    bindHighlightButtons();
+
+    loadCart(); // carrega carrinho
+    renderProducts(); // renderiza produtos
+    updateCart(); // atualiza carrinho
+    updateAccountButton(); // atualiza botão conta
+    bindHighlightButtons(); // ativa destaques
 });

@@ -1,121 +1,142 @@
+/* RESET GLOBAL: remove padrões do navegador */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; /* remove margens padrão */
+    padding: 0; /* remove paddings padrão */
+    box-sizing: border-box; /* inclui padding e borda no cálculo do tamanho */
 }
 
+/* BODY: configuração geral da página */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #050505 0%, #1a1a1a 28%, #4c4c4c 68%, #7b7b7b 100%);
-    color: #fff;
-    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* define a fonte principal */
+    background: linear-gradient(to right, #050505 0%, #1a1a1a 28%, #4c4c4c 68%, #7b7b7b 100%); /* fundo em gradiente escuro */
+    color: #fff; /* cor padrão do texto */
+    min-height: 100vh; /* altura mínima igual à tela inteira */
 }
 
+/* PÁGINA DE LOGIN: centraliza tudo na tela */
 .login-page {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    min-height: 100vh; /* ocupa toda altura da tela */
+    display: flex; /* usa flexbox */
+    align-items: center; /* centraliza verticalmente */
+    justify-content: center; /* centraliza horizontalmente */
+    padding: 20px; /* espaçamento interno nas bordas */
 }
 
+/* CARD DE LOGIN: caixa principal */
 .login-card {
-    width: 100%;
-    max-width: 430px;
-    background: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 22px;
-    padding: 28px 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.30);
+    width: 100%; /* ocupa largura total disponível */
+    max-width: 430px; /* limita largura máxima */
+    background: rgba(0, 0, 0, 0.55); /* fundo escuro com transparência */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* borda suave */
+    border-radius: 22px; /* bordas arredondadas */
+    padding: 28px 24px; /* espaçamento interno */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.30); /* sombra para dar profundidade */
 }
 
+/* LOGO DO LOGIN */
 .login-logo {
-    text-align: center;
-    margin-bottom: 24px;
+    text-align: center; /* centraliza conteúdo */
+    margin-bottom: 24px; /* espaço abaixo */
 }
 
+/* IMAGEM DO LOGO */
 .login-logo img {
-    width: 90px;
-    margin: 0 auto 14px;
+    width: 90px; /* largura da imagem */
+    margin: 0 auto 14px; /* centraliza e adiciona espaço abaixo */
 }
 
+/* TÍTULO DO LOGIN */
 .login-logo h1 {
-    font-size: 28px;
-    margin-bottom: 8px;
+    font-size: 28px; /* tamanho grande */
+    margin-bottom: 8px; /* espaço abaixo */
 }
 
+/* SUBTEXTO DO LOGIN */
 .login-logo p {
-    color: #d2d2d2;
-    font-size: 15px;
+    color: #d2d2d2; /* cor cinza claro */
+    font-size: 15px; /* tamanho do texto */
 }
 
+/* FORMULÁRIO */
 .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: flex; /* usa flexbox */
+    flex-direction: column; /* organiza em coluna */
+    gap: 16px; /* espaço entre campos */
 }
 
+/* GRUPO DE INPUT */
 .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+    display: flex; /* flexbox */
+    flex-direction: column; /* empilha label + input */
+    gap: 7px; /* espaço entre label e input */
 }
 
+/* LABEL DOS INPUTS */
 .input-group label {
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 700; /* negrito */
+    font-size: 14px; /* tamanho */
 }
 
+/* INPUT */
 .input-group input {
-    height: 48px;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    padding: 0 14px;
-    font-size: 15px;
+    height: 48px; /* altura fixa */
+    border: none; /* remove borda padrão */
+    outline: none; /* remove contorno ao focar */
+    border-radius: 10px; /* bordas arredondadas */
+    padding: 0 14px; /* espaçamento interno lateral */
+    font-size: 15px; /* tamanho do texto */
 }
 
+/* BOTÕES: login e voltar */
 .btn-login,
 .btn-back {
-    height: 48px;
-    border: none;
-    border-radius: 10px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 15px;
-    cursor: pointer;
+    height: 48px; /* altura padrão */
+    border: none; /* remove borda */
+    border-radius: 10px; /* bordas arredondadas */
+    text-decoration: none; /* remove sublinhado (caso seja <a>) */
+    display: flex; /* flex para centralizar */
+    align-items: center; /* centraliza vertical */
+    justify-content: center; /* centraliza horizontal */
+    font-weight: 800; /* texto forte */
+    font-size: 15px; /* tamanho */
+    cursor: pointer; /* cursor de clique */
 }
 
+/* BOTÃO LOGIN */
 .btn-login {
-    background: linear-gradient(90deg, #ff9100, #ffb000);
-    color: #111;
+    background: linear-gradient(90deg, #ff9100, #ffb000); /* gradiente laranja */
+    color: #111; /* texto escuro */
 }
 
+/* BOTÃO VOLTAR */
 .btn-back {
-    background: #2f2f2f;
-    color: #fff;
+    background: #2f2f2f; /* fundo cinza escuro */
+    color: #fff; /* texto branco */
 }
 
+/* MENSAGEM (erro/sucesso) */
 .login-message {
-    margin-top: 16px;
-    text-align: center;
-    font-weight: 700;
-    min-height: 20px;
+    margin-top: 16px; /* espaço acima */
+    text-align: center; /* centraliza texto */
+    font-weight: 700; /* destaque */
+    min-height: 20px; /* evita layout quebrar quando vazio */
 }
 
+/* RESPONSIVO PARA CELULAR */
 @media (max-width: 480px) {
+
+    /* CARD menor no mobile */
     .login-card {
-        padding: 22px 16px;
-        border-radius: 18px;
+        padding: 22px 16px; /* reduz espaçamento */
+        border-radius: 18px; /* borda menor */
     }
 
+    /* TÍTULO menor */
     .login-logo h1 {
         font-size: 22px;
     }
 
+    /* TEXTO menor */
     .login-logo p {
         font-size: 14px;
     }

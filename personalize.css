@@ -1,125 +1,142 @@
+/* RESET GLOBAL: remove margens, paddings e define cálculo de tamanho */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; /* remove margens padrão */
+    padding: 0; /* remove espaçamentos internos padrão */
+    box-sizing: border-box; /* inclui padding e borda no tamanho total */
 }
 
+/* BODY: configura o visual geral da página */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #050505 0%, #1a1a1a 28%, #4c4c4c 68%, #7b7b7b 100%);
-    color: #fff;
-    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* define a fonte padrão */
+    background: linear-gradient(to right, #050505 0%, #1a1a1a 28%, #4c4c4c 68%, #7b7b7b 100%); /* fundo em gradiente escuro */
+    color: #fff; /* cor padrão do texto */
+    min-height: 100vh; /* garante altura mínima da tela inteira */
 }
 
+/* CONTAINER PRINCIPAL: centraliza o conteúdo */
 .container {
-    width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 18px;
+    width: 100%; /* ocupa toda largura */
+    max-width: 1180px; /* largura máxima */
+    margin: 0 auto; /* centraliza horizontalmente */
+    padding: 0 18px; /* espaçamento lateral */
 }
 
+/* TOPO DO BUILDER */
 .builder-topbar {
-    background: rgba(20, 20, 20, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background: rgba(20, 20, 20, 0.95); /* fundo escuro com transparência */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06); /* linha inferior suave */
+    position: sticky; /* fixa no topo */
+    top: 0; /* encostado no topo */
+    z-index: 1000; /* fica acima dos outros elementos */
 }
 
+/* CONTEÚDO DO TOPO */
 .builder-topbar-content {
-    min-height: 78px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    min-height: 78px; /* altura mínima */
+    display: flex; /* layout flexível */
+    align-items: center; /* centraliza vertical */
+    justify-content: space-between; /* separa itens */
+    gap: 16px; /* espaço entre elementos */
 }
 
+/* LOGO DO BUILDER */
 .builder-logo img {
-    width: 90px;
-    display: block;
+    width: 90px; /* largura da logo */
+    display: block; /* remove espaços extras */
 }
 
+/* BOTÃO DE VOLTAR */
 .builder-back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #fff;
-    background: #2f2f2f;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-weight: 700;
+    display: inline-flex; /* layout flex inline */
+    align-items: center; /* centraliza vertical */
+    gap: 8px; /* espaço entre ícone/texto */
+    text-decoration: none; /* remove sublinhado */
+    color: #fff; /* texto branco */
+    background: #2f2f2f; /* fundo cinza escuro */
+    padding: 10px 16px; /* espaçamento interno */
+    border-radius: 10px; /* borda arredondada */
+    font-weight: 700; /* texto forte */
 }
 
+/* ÁREA PRINCIPAL */
 .builder-page {
-    padding: 30px 0 40px;
+    padding: 30px 0 40px; /* espaçamento vertical */
 }
 
+/* HERO (título da página) */
 .builder-hero {
-    margin-bottom: 24px;
+    margin-bottom: 24px; /* espaço abaixo */
 }
 
 .builder-hero h1 {
-    font-size: 42px;
-    font-weight: 900;
-    margin-bottom: 8px;
+    font-size: 42px; /* tamanho grande */
+    font-weight: 900; /* bem forte */
+    margin-bottom: 8px; /* espaço abaixo */
 }
 
 .builder-hero p {
-    font-size: 18px;
-    color: #d0d0d0;
+    font-size: 18px; /* tamanho médio */
+    color: #d0d0d0; /* cinza claro */
 }
 
+/* LAYOUT PRINCIPAL */
 .builder-layout {
-    display: grid;
-    grid-template-columns: 1.45fr 0.9fr;
-    gap: 24px;
-    align-items: start;
+    display: grid; /* usa grid */
+    grid-template-columns: 1.45fr 0.9fr; /* duas colunas */
+    gap: 24px; /* espaço entre colunas */
+    align-items: start; /* alinha no topo */
 }
 
+/* CARDS (formulário e resumo) */
 .builder-form-card,
 .builder-summary-card {
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 22px;
-    padding: 24px;
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
+    background: rgba(0, 0, 0, 0.45); /* fundo escuro transparente */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* borda leve */
+    border-radius: 22px; /* bordas arredondadas */
+    padding: 24px; /* espaçamento interno */
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22); /* sombra */
 }
 
+/* GRID DE CAMPOS */
 .builder-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    display: grid; /* layout grid */
+    grid-template-columns: repeat(2, 1fr); /* duas colunas iguais */
+    gap: 18px; /* espaço entre campos */
 }
 
+/* CAMPO INDIVIDUAL */
 .builder-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: flex; /* flex */
+    flex-direction: column; /* coluna */
+    gap: 8px; /* espaço entre label e input */
 }
 
+/* LABEL */
 .builder-field label {
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 14px; /* tamanho pequeno */
+    font-weight: 800; /* forte */
 }
 
+/* SELECT */
 .builder-field select {
-    width: 100%;
-    height: 48px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    padding: 0 14px;
-    font-size: 15px;
-    color: #111;
-    background: #fff;
+    width: 100%; /* ocupa tudo */
+    height: 48px; /* altura padrão */
+    border-radius: 10px; /* arredondado */
+    border: none; /* sem borda */
+    outline: none; /* sem outline */
+    padding: 0 14px; /* espaçamento interno */
+    font-size: 15px; /* tamanho texto */
+    color: #111; /* texto escuro */
+    background: #fff; /* fundo branco */
 }
 
+/* TÍTULO DO RESUMO */
 .builder-summary-card h2 {
-    font-size: 26px;
-    margin-bottom: 18px;
+    font-size: 26px; /* tamanho médio */
+    margin-bottom: 18px; /* espaço abaixo */
 }
 
+/* LISTA DO RESUMO */
 .summary-list {
     display: flex;
     flex-direction: column;
@@ -127,6 +144,7 @@ body {
     margin-bottom: 22px;
 }
 
+/* ITEM DO RESUMO */
 .summary-item {
     display: flex;
     flex-direction: column;
@@ -135,25 +153,29 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* TEXTO PEQUENO */
 .summary-item span {
     color: #bdbdbd;
     font-size: 13px;
     font-weight: 700;
 }
 
+/* VALOR */
 .summary-item strong {
     font-size: 16px;
     color: #fff;
 }
 
+/* BOX TOTAL */
 .builder-total-box {
-    background: rgba(255, 145, 0, 0.12);
-    border: 1px solid rgba(255, 176, 0, 0.25);
+    background: rgba(255, 145, 0, 0.12); /* fundo laranja leve */
+    border: 1px solid rgba(255, 176, 0, 0.25); /* borda laranja */
     border-radius: 16px;
     padding: 18px;
     margin-bottom: 18px;
 }
 
+/* TEXTO DO TOTAL */
 .builder-total-box span {
     display: block;
     font-size: 14px;
@@ -162,12 +184,14 @@ body {
     font-weight: 700;
 }
 
+/* VALOR TOTAL */
 .builder-total-box strong {
     font-size: 34px;
     color: #ffb000;
     font-weight: 900;
 }
 
+/* BOTÃO ADICIONAR */
 .builder-add-btn {
     width: 100%;
     border: none;
@@ -180,6 +204,7 @@ body {
     cursor: pointer;
 }
 
+/* MENSAGEM */
 .builder-message {
     margin-top: 14px;
     min-height: 22px;
@@ -187,12 +212,14 @@ body {
     text-align: center;
 }
 
+/* RESPONSIVO TABLET */
 @media (max-width: 900px) {
     .builder-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* vira uma coluna */
     }
 }
 
+/* RESPONSIVO MOBILE */
 @media (max-width: 768px) {
     .builder-topbar-content {
         flex-direction: column;
@@ -223,6 +250,7 @@ body {
     }
 }
 
+/* MENSAGEM (versão final sobrescrevendo) */
 .builder-message {
     margin-top: 14px;
     min-height: 22px;

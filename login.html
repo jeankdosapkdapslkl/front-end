@@ -1,40 +1,83 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html> <!-- define que o documento é HTML5 -->
+<html lang="pt-br"> <!-- idioma da página: português do Brasil -->
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - PCStore</title>
+    <meta charset="UTF-8"> <!-- define codificação de caracteres (acentos etc) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- responsividade em dispositivos móveis -->
+    <title>Login - PCStore</title> <!-- título da aba do navegador -->
+
+    <!-- arquivo CSS da página de login -->
     <link rel="stylesheet" href="login.css">
+
+    <!-- biblioteca de ícones (Font Awesome) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+
+<body> <!-- corpo da página -->
+    
+    <!-- container principal da tela de login -->
     <div class="login-page">
+
+        <!-- card central onde fica o formulário -->
         <div class="login-card">
+
+            <!-- área do logo + título -->
             <div class="login-logo">
+
+                <!-- imagem do logo -->
                 <img src="imagens/foto2.png" alt="PCStore">
+
+                <!-- título principal -->
                 <h1>Entrar na sua conta</h1>
+
+                <!-- subtítulo -->
                 <p>Faça login para continuar sua compra</p>
             </div>
 
+            <!-- formulário de login -->
             <form id="loginForm" class="login-form">
+
+                <!-- grupo do campo email -->
                 <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Digite seu email" required>
+                    <label for="email">Email</label> <!-- label do campo -->
+                    <input 
+                        type="email" <!-- tipo do input (valida email automaticamente) -->
+                        id="email" <!-- id para JS e label -->
+                        placeholder="Digite seu email" <!-- texto dentro do input -->
+                        required <!-- campo obrigatório -->
+                    >
                 </div>
 
+                <!-- grupo do campo senha -->
                 <div class="input-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" placeholder="Digite sua senha" required>
+                    <label for="password">Senha</label> <!-- label -->
+                    <input 
+                        type="password" <!-- tipo senha (oculta texto) -->
+                        id="password" <!-- id -->
+                        placeholder="Digite sua senha" <!-- dica -->
+                        required <!-- obrigatório -->
+                    >
                 </div>
 
-                <button type="submit" class="btn-login">Entrar</button>
-                <a href="index.php" class="btn-back">Voltar para loja</a>
+                <!-- botão de envio do formulário -->
+                <button type="submit" class="btn-login">
+                    Entrar
+                </button>
+
+                <!-- botão de voltar (link) -->
+                <a href="index.php" class="btn-back">
+                    Voltar para loja
+                </a>
             </form>
 
+            <!-- área onde aparece mensagem de erro ou sucesso -->
             <p id="loginMessage" class="login-message"></p>
-        </div>
-    </div>
 
+        </div> <!-- fim login-card -->
+    </div> <!-- fim login-page -->
+
+    <!-- script JS responsável pela lógica do login -->
     <script src="login.js"></script>
+
 </body>
 </html>

@@ -1,36 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <!-- Define codificação de caracteres -->
     <meta charset="UTF-8">
+
+    <!-- Responsividade para mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título da página -->
     <title>Monte seu PC - PCStore</title>
+
+    <!-- CSS principal da página -->
     <link rel="stylesheet" href="personalize.css">
+
+    <!-- Biblioteca de ícones (Font Awesome) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+
+    <!-- ================= TOPO ================= -->
     <header class="builder-topbar">
         <div class="container builder-topbar-content">
+
+            <!-- Logo (leva para página principal) -->
             <a href="index.php" class="builder-logo">
                 <img src="imagens/foto2.png" alt="PCSTORE">
             </a>
 
+            <!-- Botão voltar -->
             <a href="index.php" class="builder-back-btn">
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-left"></i> <!-- ícone seta -->
                 <span>Voltar para loja</span>
             </a>
+
         </div>
     </header>
 
+    <!-- ================= CONTEÚDO PRINCIPAL ================= -->
     <main class="builder-page">
         <div class="container">
+
+            <!-- Título da página -->
             <section class="builder-hero">
-                <h1>Monte seu PC</h1>
-                <p>Escolha as peças e veja o preço total em tempo real.</p>
+                <h1>Monte seu PC</h1> <!-- título grande -->
+                <p>Escolha as peças e veja o preço total em tempo real.</p> <!-- descrição -->
             </section>
 
+            <!-- Layout principal (form + resumo) -->
             <section class="builder-layout">
+
+                <!-- ================= FORMULÁRIO ================= -->
                 <div class="builder-form-card">
                     <div class="builder-grid">
+
+                        <!-- CPU -->
                         <div class="builder-field">
                             <label for="cpu">Processador</label>
                             <select id="cpu">
@@ -41,6 +64,7 @@
                             </select>
                         </div>
 
+                        <!-- GPU -->
                         <div class="builder-field">
                             <label for="gpu">Placa de Vídeo</label>
                             <select id="gpu">
@@ -51,6 +75,7 @@
                             </select>
                         </div>
 
+                        <!-- RAM -->
                         <div class="builder-field">
                             <label for="ram">Memória RAM</label>
                             <select id="ram">
@@ -61,6 +86,7 @@
                             </select>
                         </div>
 
+                        <!-- STORAGE -->
                         <div class="builder-field">
                             <label for="storage">Armazenamento</label>
                             <select id="storage">
@@ -70,6 +96,7 @@
                             </select>
                         </div>
 
+                        <!-- MOTHERBOARD -->
                         <div class="builder-field">
                             <label for="motherboard">Placa-Mãe</label>
                             <select id="motherboard">
@@ -78,6 +105,7 @@
                             </select>
                         </div>
 
+                        <!-- PSU -->
                         <div class="builder-field">
                             <label for="psu">Fonte</label>
                             <select id="psu">
@@ -87,14 +115,18 @@
                             </select>
                         </div>
 
+                        <!-- GABINETE -->
                         <div class="builder-field">
                             <label for="case">Gabinete</label>
+                            <!-- ⚠️ POSSÍVEL ERRO AQUI -->
+                            <!-- no JS você usa id="pc-case", mas aqui está id="case" -->
                             <select id="case">
                                 <option value="299.99">Gabinete Mid Tower - R$ 299,99</option>
                                 <option value="449.99">Gabinete RGB Premium - R$ 449,99</option>
                             </select>
                         </div>
 
+                        <!-- COOLER -->
                         <div class="builder-field">
                             <label for="cooler">Cooler</label>
                             <select id="cooler">
@@ -102,62 +134,81 @@
                                 <option value="349.99">Water Cooler 240mm - R$ 349,99</option>
                             </select>
                         </div>
+
                     </div>
                 </div>
 
+                <!-- ================= RESUMO ================= -->
                 <aside class="builder-summary-card">
+
                     <h2>Sua configuração</h2>
 
+                    <!-- Lista de peças escolhidas -->
                     <div class="summary-list">
+
                         <div class="summary-item">
                             <span>Processador</span>
                             <strong id="summaryCpu">Intel Core i5</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Placa de Vídeo</span>
                             <strong id="summaryGpu">RTX 4060</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Memória RAM</span>
                             <strong id="summaryRam">16GB DDR4</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Armazenamento</span>
                             <strong id="summaryStorage">SSD NVMe 500GB</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Placa-Mãe</span>
                             <strong id="summaryMotherboard">B660 / B650</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Fonte</span>
                             <strong id="summaryPsu">650W Bronze</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Gabinete</span>
                             <strong id="summaryCase">Gabinete Mid Tower</strong>
                         </div>
+
                         <div class="summary-item">
                             <span>Cooler</span>
                             <strong id="summaryCooler">Air Cooler</strong>
                         </div>
+
                     </div>
 
+                    <!-- TOTAL -->
                     <div class="builder-total-box">
                         <span>Total do PC</span>
                         <strong id="builderTotal">R$ 0,00</strong>
                     </div>
 
+                    <!-- BOTÃO -->
                     <button id="addBuildToCartBtn" class="builder-add-btn">
                         Adicionar configuração ao carrinho
                     </button>
 
+                    <!-- MENSAGEM -->
                     <p id="builderMessage" class="builder-message"></p>
+
                 </aside>
             </section>
         </div>
     </main>
 
+    <!-- JS da página -->
     <script src="personalize.js"></script>
+
 </body>
 </html>
